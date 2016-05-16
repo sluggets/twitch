@@ -1,0 +1,57 @@
+*
+{
+  box-sizing: border-box;
+}
+
+html
+{
+  overflow-y: scroll;
+}
+
+body
+{
+
+}
+
+.grid
+{
+  background: #DDD;
+}
+
+.grid:after
+{
+  content: '';
+  display: block;
+  clear: both;
+}
+
+.grid-sizer,
+.grid-item
+{
+  width: 25%;
+}
+
+.grid-item
+{
+  float: left;
+  height: 100px;
+  background: #0D8;
+  border: 2px solid black;
+}
+
+.grid-item--width2
+{
+  width: 50%;
+}
+
+.grid-item--width3
+{
+  width: 75%; 
+}
+
+.grid-item--height2
+{
+  height: 200px;
+}
+
+
