@@ -8,6 +8,12 @@ $(document).ready(function() {
     }
   });
   
+  //https://api.twitch.tv/kraken/streams/MedryBw?callback=?
+  $.getJSON('https://api.twitch.tv/kraken/users/freecodecamp', function(data) {
+    console.log(JSON.stringify(data));
+  });
+
+
   var tempList = ['glack', 'black', 'slack', 'crack', 'smack', 'snagg',
                   'chicken', 'buggy', 'slippery'];
 
