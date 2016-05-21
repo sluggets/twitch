@@ -10,7 +10,7 @@ html
 
 body
 {
-
+  font-size: 18px;
 }
 
 .grid
@@ -35,23 +35,35 @@ body
 {
   float: left;
   height: 100px;
+  width: 100px;
   background: #0D8;
   border: 2px solid black;
 }
 
 .grid-item--width2
 {
-  width: 50%;
+  width: 200px;
+  height: 200px;
 }
 
 .grid-item--width3
 {
-  width: 75%; 
+  width: 300px; 
+  height: 300px;
 }
 
-.grid-item--height2
+/*.grid-item--width3
+{
+  width: 75%; 
+}*/
+
+/*.grid-item--height2
 {
   height: 200px;
+}*/
+
+img
+{
+  margin: auto;
+  margin-top: 10px;
 }
-
-
