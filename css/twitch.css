@@ -52,6 +52,11 @@ body
   height: 300px;
 }
 
+.grid-item--width4
+{
+  width: 400px; 
+  height: 400px;
+}
 /*.grid-item--width3
 {
   width: 75%; 
@@ -66,4 +71,22 @@ img
 {
   margin: auto;
   margin-top: 10px;
+}
+
+/*.user-header
+{
+  display: none;
+}*/
+
+/*#twitch-user
+{
+  position: absolute;
+  z-index: 100;
+  top: 0px;
+}*/
+
+#twitch-user > h1
+{
+  display: none;
+  text-align: center;
 }
