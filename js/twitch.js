@@ -1,5 +1,8 @@
 $(document).ready(function() {
 
+  lastUser = '';  
+  lastClass = '';
+
   $('.grid').isotope({
     itemSelector: '.grid-item',
     percentPosition: true,
@@ -33,6 +36,31 @@ $(document).ready(function() {
 
   usernameList.forEach(buildStreamers);
 
+  // handles click event for elements that may not
+  // yet be loaded
+  $('#gridResults').on('click', '.grid-item', function() {
+    console.log(lastUser);
+    var tempUser = $(this).attr("id");
+    var currentPhotoDiv = document.getElementById(tempUser);
+    tempUser = '#' + tempUser.substring(0, tempUser.length - 1);
+    if (lastUser !== '')
+    {
+      console.log("inside if statement " + lastUser);
+      var lastPhotoUser = lastUser.substring(1, lastUser.length) + lastUser.charAt(1);
+      console.log(lastPhotoUser);
+      var lastPhotoDiv = document.getElementById(lastPhotoUser);
+      lastPhotoDiv.className = lastClass;
+      $(lastUser).toggle();
+    }
+    var currentPhotoUser = tempUser.substring(1, tempUser.length - 1) + tempUser.charAt(1);
+    lastClass = currentPhotoDiv.className;
+    console.log(lastClass);
+    currentPhotoDiv.className = 'grid-item grid-item--width4';
+    $(tempUser).toggle();
+    
+    lastUser = tempUser;
+    console.log(tempUser);
+  });
 });
 
 function getRandomIntInclusive(min, max) 
@@ -80,44 +108,43 @@ function buildStreamers(elem, index, arr)
         profilePic.setAttribute("width", "75px");
         profilePic.setAttribute("height", "75px");
       }
+
       profilePic.className = 'img-rounded img-responsive';
       var currentDiv = $("#gridResults");
-      //var newHeader = document.createElement("h2");
-      //var snippetNode = document.createTextNode(elem);
-      //newHeader.appendChild(snippetNode);
+      var usernameDiv = $("#twitch-user");
+      var newHeader = document.createElement("h1");
+      var snippetNode = document.createTextNode(elem);
+      newHeader.appendChild(snippetNode);
+      newHeader.id = elem;
       //newHeader.appendChild(profilePic);
+      var imgDiv = document.createElement('div');
       var newDiv = document.createElement('div');  
+      //var headerDiv = document.createElement('div');
+      //headerDiv.className = "header-div";
+      //headerDiv.appendChild(newHeader);
+      imgDiv.appendChild(profilePic);
+      newDiv.appendChild(imgDiv);
+      usernameDiv.append(newHeader)
+      //newDiv.appendChild(headerDiv);
       //newDiv.appendChild(newHeader);
-      newDiv.appendChild(profilePic);
+      //newDiv.appendChild(profilePic);
+      //newDiv.appendChild(newHeader);
       newDiv.className = "grid-item " + gridClasses[ranNum]; 
+      newDiv.id = elem + elem.charAt(0);
       currentDiv.append(newDiv);
   });
-  /*profilePic.src = 'img/glitch.png';
-  if (gridClasses[ranNum].length > 1 && gridClasses[ranNum].charAt(16) == '2')
-  {
-    profilePic.setAttribute("width", "150px");
-    profilePic.setAttribute("height", "150px");
+}
 
-  }
-  else if (gridClasses[ranNum].length > 1 && gridClasses[ranNum].charAt(16) == '3')
-  {
-    profilePic.setAttribute("width", "250px");
-    profilePic.setAttribute("height", "250px");
-  }
-  else
-  {
-    profilePic.setAttribute("width", "50px");
-    profilePic.setAttribute("height", "50px");
-  }
-  profilePic.className = 'img-rounded img-responsive';
+// builds a div with username so username can display
+// over other content
+function buildUsernameDiv(username)
+{
   var currentDiv = $("#gridResults");
-  //var newHeader = document.createElement("h2");
-  //var snippetNode = document.createTextNode(elem);
-  //newHeader.appendChild(snippetNode);
-  //newHeader.appendChild(profilePic);
-  var newDiv = document.createElement('div');  
-  //newDiv.appendChild(newHeader);
-  newDiv.appendChild(profilePic);
-  newDiv.className = "grid-item " + gridClasses[ranNum]; 
-  currentDiv.append(newDiv);*/
+  var usernameDiv = document.createElement("div");
+  var userHeader = document.createElement("h2");
+  var snippetNode = document.createTextNode(username);
+  userHeader.appendChild(snippetNode);
+  usernameDiv.appendChild(userHeader);
+  usernameDiv.className = "user-header"; 
+  currentDiv.append(usernameDiv);
 }
