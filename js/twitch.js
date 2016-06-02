@@ -49,6 +49,13 @@ $(document).ready(function() {
     // grabs user that was clicked on
     var tempUser = $(this).attr("id");
 
+    // if user clicks on same user icon twice, returns out 
+    // of function altogether, nothing needs to be done!
+    if (lastUser !== '' && (toggleHash(lastUser)) == tempUser)
+    {
+      return;
+    }
+
     // grabs div containing user's profile picture
     var currentPhotoDiv = document.getElementById(tempUser);
   
@@ -192,4 +199,16 @@ function buildUsernameDiv(username)
   usernameDiv.appendChild(userHeader);
   usernameDiv.className = "user-header"; 
   currentDiv.append(usernameDiv);
+}
+
+function toggleHash(username)
+{
+  if (username.charAt(0) == '#')
+  {
+    return username.substring(1, username.length) + username.charAt(1);
+  }
+  else
+  {
+    return '#' + username.substring(0, username.length - 1);
+  }
 }
