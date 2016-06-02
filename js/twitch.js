@@ -1,8 +1,14 @@
 $(document).ready(function() {
 
+  // global variables to store state of profile pictures
+  // so that they can be restored after click events alter
+  // them
   lastUser = '';  
   lastClass = '';
+  lastWidthDims = '';
+  lastHeightDims = '';
 
+  // this is the isotope grid css plugin setup
   $('.grid').isotope({
     itemSelector: '.grid-item',
     percentPosition: true,
@@ -39,27 +45,66 @@ $(document).ready(function() {
   // handles click event for elements that may not
   // yet be loaded
   $('#gridResults').on('click', '.grid-item', function() {
-    console.log(lastUser);
+
+    // grabs user that was clicked on
     var tempUser = $(this).attr("id");
+
+    // grabs div containing user's profile picture
     var currentPhotoDiv = document.getElementById(tempUser);
+  
+    // grabs img elements from that div, puts into an array
+    var currentImg = currentPhotoDiv.getElementsByTagName('img');
+
+    // stores existing dimensions of profile picture before
+    // altering them so that they can be restored
+    var currentWidthDims = currentImg[0].getAttribute('width');
+    var currentHeightDims = currentImg[0].getAttribute('height');
+
+    // this just alters username div id from "freecodecampf" to
+    // "#freecodecamp" so that username header can be added
+    // to top of page
     tempUser = '#' + tempUser.substring(0, tempUser.length - 1);
+
+    // if current click isn't user's first click
+    // it restores previous values to LAST user element
+    // that was clicked
     if (lastUser !== '')
     {
-      console.log("inside if statement " + lastUser);
+      // changes username div id from "#freecodecamp" to
+      // "freecodecampf"
       var lastPhotoUser = lastUser.substring(1, lastUser.length) + lastUser.charAt(1);
-      console.log(lastPhotoUser);
+      //console.log('lastPhotoUser: ' + lastPhotoUser);
+      
+      // gets div of username that was last clicked in order
+      // to restore previous values
       var lastPhotoDiv = document.getElementById(lastPhotoUser);
+
+      // restores previous user's class
       lastPhotoDiv.className = lastClass;
+
+      // grabs img elements from last user's div
+      var profImg = lastPhotoDiv.getElementsByTagName('img');
+
+      // restores previous user's profile picture dimensions
+      profImg[0].setAttribute("width", lastWidthDims);
+      profImg[0].setAttribute("height", lastHeightDims); 
+
+      // toggles visibility of username on header to not visible 
+      // or hidden
       $(lastUser).toggle();
     }
     var currentPhotoUser = tempUser.substring(1, tempUser.length - 1) + tempUser.charAt(1);
     lastClass = currentPhotoDiv.className;
+    lastWidthDims = currentWidthDims;
+    lastHeightDims = currentHeightDims;
     console.log(lastClass);
     currentPhotoDiv.className = 'grid-item grid-item--width4';
+    currentImg[0].setAttribute("width", "325px");
+    currentImg[0].setAttribute("height", "325px");
     $(tempUser).toggle();
-    
+     
     lastUser = tempUser;
-    console.log(tempUser);
+    //console.log(tempUser);
   });
 });
 
