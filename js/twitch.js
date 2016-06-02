@@ -47,17 +47,17 @@ $(document).ready(function() {
   $('#gridResults').on('click', '.grid-item', function() {
 
     // grabs user that was clicked on
-    var tempUser = $(this).attr("id");
+    var photoDivUser = $(this).attr("id");
 
     // if user clicks on same user icon twice, returns out 
     // of function altogether, nothing needs to be done!
-    if (lastUser !== '' && (toggleHash(lastUser)) == tempUser)
+    if (lastUser !== '' && (toggleHash(lastUser)) == photoDivUser)
     {
       return;
     }
 
     // grabs div containing user's profile picture
-    var currentPhotoDiv = document.getElementById(tempUser);
+    var currentPhotoDiv = document.getElementById(photoDivUser);
   
     // grabs img elements from that div, puts into an array
     var currentImg = currentPhotoDiv.getElementsByTagName('img');
@@ -70,7 +70,7 @@ $(document).ready(function() {
     // this just alters username div id from "freecodecampf" to
     // "#freecodecamp" so that username header can be added
     // to top of page
-    tempUser = '#' + tempUser.substring(0, tempUser.length - 1);
+    headerDivUser = toggleHash(photoDivUser);
 
     // if current click isn't user's first click
     // it restores previous values to LAST user element
@@ -79,8 +79,7 @@ $(document).ready(function() {
     {
       // changes username div id from "#freecodecamp" to
       // "freecodecampf"
-      var lastPhotoUser = lastUser.substring(1, lastUser.length) + lastUser.charAt(1);
-      //console.log('lastPhotoUser: ' + lastPhotoUser);
+      var lastPhotoUser = toggleHash(lastUser);
       
       // gets div of username that was last clicked in order
       // to restore previous values
@@ -100,18 +99,31 @@ $(document).ready(function() {
       // or hidden
       $(lastUser).toggle();
     }
-    var currentPhotoUser = tempUser.substring(1, tempUser.length - 1) + tempUser.charAt(1);
+
+    // stores current class name to be restored later after a
+    // subsequent click
     lastClass = currentPhotoDiv.className;
+
+    // stores current profile pic dimensions to be restored later
+    // after a subsequent click
     lastWidthDims = currentWidthDims;
     lastHeightDims = currentHeightDims;
-    console.log(lastClass);
+
+    // changes current class that was clicked to increase size
+    // and draw focus
     currentPhotoDiv.className = 'grid-item grid-item--width4';
+
+    // changes current image size to increase size and draw focus
     currentImg[0].setAttribute("width", "325px");
     currentImg[0].setAttribute("height", "325px");
-    $(tempUser).toggle();
+
+    // toggles visibility of newly clicked user to display
+    // current username in <h1> element
+    $(headerDivUser).toggle();
      
-    lastUser = tempUser;
-    //console.log(tempUser);
+    // stores current user to restore original values
+    // after a subsequent click
+    lastUser = headerDivUser;
   });
 });
 
@@ -201,6 +213,12 @@ function buildUsernameDiv(username)
   currentDiv.append(usernameDiv);
 }
 
+// twitch usernames are utilized as ids for html elements in two
+// different ways in this. firstly as username + username[0], which
+// gives us "usernameu" for the id of the div holding the 
+// profile picture. secondly as "username" which gives us
+// the id for the <h1> element holding the username as header
+// this toggles between the two, plus add a hashmark whynot?
 function toggleHash(username)
 {
   if (username.charAt(0) == '#')
