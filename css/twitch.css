@@ -144,3 +144,17 @@ img
 {
   text-transform: lowercase;
 }
+
+a, a:focus
+{
+  text-decoration: none;
+  text-shadow: 1px 1px 2px purple;
+  color: #6344a2;
+}
+
+a:hover
+{
+  text-decoration: none;
+  text-shadow: 4px 4px 25px purple;
+  color: #6344a2;
+}
