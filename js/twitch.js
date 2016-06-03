@@ -176,9 +176,14 @@ function buildStreamers(elem, index, arr)
       profilePic.className = ' img-responsive';
       var currentDiv = $("#gridResults");
       var usernameDiv = $("#twitch-user");
+      var twitchLink = document.createElement("a");
+      twitchLink.setAttribute('target', '_blank');
+      twitchLink.href = 'https://twitch.tv/' + elem;
+      twitchLink.className = 'twitch-link';
       var newHeader = document.createElement("h1");
       var snippetNode = document.createTextNode(elem);
-      newHeader.appendChild(snippetNode);
+      twitchLink.appendChild(snippetNode);
+      newHeader.appendChild(twitchLink);
       newHeader.id = elem;
       //newHeader.appendChild(profilePic);
       var imgDiv = document.createElement('div');
@@ -227,8 +232,8 @@ function buildStreamers(elem, index, arr)
   
 }
 
-// builds a div with username so username can display
-// over other content
+/* builds a div with username so username can display
+ over other content
 function buildUsernameDiv(username)
 {
   var currentDiv = $("#gridResults");
@@ -239,7 +244,7 @@ function buildUsernameDiv(username)
   usernameDiv.appendChild(userHeader);
   usernameDiv.className = "user-header"; 
   currentDiv.append(usernameDiv);
-}
+}*/
 
 // twitch usernames are utilized as ids for html elements in two
 // different ways in this. firstly as username + username[0], which
