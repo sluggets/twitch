@@ -36,7 +36,7 @@ $(document).ready(function() {
 
   var usernameList = ['MedryBw', 'freecodecamp', 'storbeck', 'terakilobyte', 
                       'habathcx', 'RobotCaleb', 'thomasballinger',
-                      'noobs2ninjas', 'beohoff', 'comster404'];
+                      'noobs2ninjas', 'beohoff', 'comster404', 'brunofin'];
 
   gridClasses = [' ', ' ', 'grid-item--width2',];
 
@@ -137,9 +137,9 @@ function buildStreamers(elem, index, arr)
 
   var twitchUsersApi = 'https://api.twitch.tv/kraken/users/';
 
+  var twitchStreamersApi = 'https://api.twitch.tv/kraken/streams/';
   var apiParams = {
-    "Client-ID"        :"hbv2o1kd0mxw10p06g6t9fr3n4eue04",
-        
+    "Client-ID"        :"hbv2o1kd0mxw10p06g6t9fr3n4eue04"
   };
 
 
@@ -173,7 +173,7 @@ function buildStreamers(elem, index, arr)
         profilePic.setAttribute("height", "75px");
       }
 
-      profilePic.className = 'img-rounded img-responsive';
+      profilePic.className = ' img-responsive';
       var currentDiv = $("#gridResults");
       var usernameDiv = $("#twitch-user");
       var newHeader = document.createElement("h1");
@@ -196,7 +196,35 @@ function buildStreamers(elem, index, arr)
       newDiv.className = "grid-item " + gridClasses[ranNum]; 
       newDiv.id = elem + elem.charAt(0);
       currentDiv.append(newDiv);
+
+      /// entering next getJSON for testing
+      $.getJSON(twitchStreamersApi + elem, apiParams, function(json) {
+        if (json['stream'])
+        {
+          liveStreamingStatus(json, elem); 
+        }
+        else
+        {
+          offlineStatus(elem); 
+        }
+        /*if (json['error'])
+        {
+          console.log("Error correctly handled teeem");
+        }*/
+      }).fail(function(jqxhr, textStatus, error) {
+        // testing code
+        var err = textStatus + ", " + error;
+        console.log((toggleHash(elem)) + "Request failed: " + err);
+        //console.log(elem);
+    
+        /*var hashPhotoUser = '#' + (toggleHash(elem)); 
+        $("<h3>Account Closed</h3>").appendTo('#' + elem);
+        $(hashPhotoUser).css("background", "red");*/
+         accountClosedStatus(elem);
   });
+  });
+
+  
 }
 
 // builds a div with username so username can display
@@ -225,8 +253,41 @@ function toggleHash(username)
   {
     return username.substring(1, username.length) + username.charAt(1);
   }
-  else
+  else if (username.charAt(0) == username.charAt(username.length - 1))
   {
     return '#' + username.substring(0, username.length - 1);
   }
+  else
+  {
+    return username + username.charAt(0);
+  }
+}
+
+function accountClosedStatus(username)
+{
+  var hashPhotoUser = toggleHash(username); 
+  console.log("inside alterpage, username: " + hashPhotoUser);
+  var div = document.getElementById(hashPhotoUser);
+  div.setAttribute("style", "background: #ff6666");
+  //var hashPhotoUser = '#' + (toggleHash(username)); 
+  $("<h3><i class='fa fa-minus-circle' aria-hidden='true'></i><span id='closed' class='current'>Account Closed</span></h3>").appendTo((toggleHash(hashPhotoUser)));
+  //$(hashPhotoUser).css("background", "red !important");
+}
+
+function liveStreamingStatus(json, username)
+{
+  var hashPhotoUser = toggleHash(username);
+  //console.log("in liveStreamingStatus " + hashPhotoUser);
+  var div = document.getElementById(hashPhotoUser);
+  div.setAttribute("style", "background: #46bf40");
+  $("<h3><i class='fa fa-television' aria-hidden='true'></i> <span id='streaming' class='current'>Currently Streaming</span> " + json['stream']['game'] + "</h3>").appendTo((toggleHash(hashPhotoUser)));
+  //console.log(json["stream"]["game"] + " " + username);
+}
+
+function offlineStatus(username)
+{
+  var hashPhotoUser = toggleHash(username);
+  var div = document.getElementById(hashPhotoUser);
+  div.setAttribute("style", "background: #b3b3b3");
+  $("<h3><i class='fa fa-plug' aria-hidden='true'></i><span id='offline' class='current'>Currently Offline</span></h3>").appendTo((toggleHash(hashPhotoUser)));
 }

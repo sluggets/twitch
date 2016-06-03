@@ -10,8 +10,13 @@ html
 
 body
 {
+  font-family: 'Bree Serif', serif;
   font-size: 18px;
+  background: #e2dbf0;
+  text-shadow: 1px 1px 2px purple;
+  color: #6344a2;
 }
+
 
 .grid
 {
@@ -36,8 +41,10 @@ body
   float: left;
   height: 100px;
   width: 100px;
-  background: #0D8;
-  border: 2px solid black;
+  /*background: #0D8;*/
+  /*border: 2px solid black;*/
+  border-radius: 30px;
+  box-shadow: 2px 2px 2px 1px #6344a2 ;
 }
 
 .grid-item--width2
@@ -71,6 +78,8 @@ img
 {
   margin: auto;
   margin-top: 10px;
+  box-shadow: 2px 2px 2px 1px purple;
+  border-radius: 30px;
 }
 
 /*.user-header
@@ -89,4 +98,49 @@ img
 {
   display: none;
   text-align: center;
+  font-size: 5em;
+}
+
+@media (max-width: 600px)
+{
+  #twitch-user > h1
+  {
+    font-size: 2em;
+  }
+}
+
+#twitch-user > h2
+{
+  text-align: center;
+  font-size: 2em;
+}
+
+.current
+{
+  font-style: italic;
+}
+
+.fa
+{
+  text-shadow: 2px 2px 2px 1px purple;
+}
+
+.fa-plug
+{
+  color: #b3b3b3;
+}
+
+.fa-television
+{
+  color: #46bf40;
+}
+
+.fa-minus-circle
+{
+  color: #ff6666;
+}
+
+#header
+{
+  text-transform: lowercase;
 }
