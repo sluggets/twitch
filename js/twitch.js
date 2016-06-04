@@ -17,31 +17,20 @@ $(document).ready(function() {
     }
   });
   
-  //https://api.twitch.tv/kraken/streams/MedryBw?callback=?
-  //https://api.twitch.tv/kraken/users/brunofin
-  /*$.getJSON('https://api.twitch.tv/kraken/channels/brunofin', function(data) {
-    console.log(JSON.stringify(data));
-  });
-  var twitchUsersApi = 'https://api.twitch.tv/kraken/users/';
 
-  var apiParams = {
-    "Client-ID"        :"hbv2o1kd0mxw10p06g6t9fr3n4eue04",
-        
-  };*/
-
-  /*$.getJSON(twitchApi, apiParams, function(json) {
-    console.log(JSON.stringify(json));
-    $('#gridResults').html('<img class="img-responsive" src=' + json["logo"] + '>');
-  });'brunofin'*/
-
+  // list of users from twitch to display
   var usernameList = ['MedryBw', 'freecodecamp', 'storbeck', 'terakilobyte', 
                       'habathcx', 'RobotCaleb', 'thomasballinger',
                       'noobs2ninjas', 'beohoff', 'comster404', 'brunofin',
                       'ESL_SC2', 'OgamingSC2', 'cretetion', 'cheapassgamer', 
                       'christianspicer'];
 
+  // list of classes to apply to user icons, started with three
+  // different sizes, went for two different sizes, with higher
+  // chance of displaying smaller icon
   gridClasses = [' ', ' ', 'grid-item--width2',];
 
+  // iterates through usernameList to build and display icon tiles
   usernameList.forEach(buildStreamers);
 
   // handles click event for elements that may not
@@ -142,26 +131,42 @@ $(document).ready(function() {
   });
 });
 
+// random function to select grid class sizes
 function getRandomIntInclusive(min, max) 
 {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// probably too large of a function that builds tiles for all the 
+// listed users
 function buildStreamers(elem, index, arr)
 {
 
+  // API to retrieve user profile picture
   var twitchUsersApi = 'https://api.twitch.tv/kraken/users/';
 
+  // API to retrieve streaming status
   var twitchStreamersApi = 'https://api.twitch.tv/kraken/streams/';
+ 
+  // object containin parameters for API call. i made this 
+  // anticipating more parameters!
   var apiParams = {
     "Client-ID"        :"hbv2o1kd0mxw10p06g6t9fr3n4eue04"
   };
 
 
+  // API call main purpose is to build varying sizes of tiles
+  // containing the profile picture, also builds link to user pages
   $.getJSON(twitchUsersApi + elem, apiParams, function(json, profilePic) {
+
+      // generate random number for grid class selection
       var ranNum = getRandomIntInclusive(0, 2);
+
+      // creates img element
       var profilePic = document.createElement('img');
 
+      // if user doesn't have profile pic, sets generic
+      // default one
       if (!json["logo"])
       {
         profilePic.src = 'img/glitch.png';
@@ -171,6 +176,7 @@ function buildStreamers(elem, index, arr)
         profilePic.src = json["logo"];
       }
 
+      // adjusts profile picture size to fit the div size
       if (gridClasses[ranNum].length > 1 && gridClasses[ranNum].charAt(16) == '2')
       {
         profilePic.setAttribute("width", "175px");
@@ -188,78 +194,59 @@ function buildStreamers(elem, index, arr)
         profilePic.setAttribute("height", "75px");
       }
 
+      // adds bootstrap responsive img class
       profilePic.className = ' img-responsive';
+
+      // gets html context for where to add user tiles
       var currentDiv = $("#gridResults");
       var usernameDiv = $("#twitch-user");
+   
+      // builds anchor element to twitch page
       var twitchLink = document.createElement("a");
       twitchLink.setAttribute('target', '_blank');
       twitchLink.href = 'https://twitch.tv/' + elem;
       twitchLink.className = 'twitch-link';
+
+      // builds header and places username in header
       var newHeader = document.createElement("h1");
       var snippetNode = document.createTextNode(elem);
+
+      // builds the div to hold username header
+      // and the div to hold user tiles, adds classes
       twitchLink.appendChild(snippetNode);
       newHeader.appendChild(twitchLink);
       newHeader.id = elem;
-      //newHeader.appendChild(profilePic);
       var imgDiv = document.createElement('div');
       var newDiv = document.createElement('div');  
-      //var headerDiv = document.createElement('div');
-      //headerDiv.className = "header-div";
-      //headerDiv.appendChild(newHeader);
       imgDiv.appendChild(profilePic);
       newDiv.appendChild(imgDiv);
       usernameDiv.append(newHeader)
-      //newDiv.appendChild(headerDiv);
-      //newDiv.appendChild(newHeader);
-      //newDiv.appendChild(profilePic);
-      //newDiv.appendChild(newHeader);
       newDiv.className = "grid-item " + gridClasses[ranNum]; 
       newDiv.id = elem + elem.charAt(0);
       currentDiv.append(newDiv);
 
-      /// entering next getJSON for testing
+      // gets JSON to update user status
       $.getJSON(twitchStreamersApi + elem, apiParams, function(json) {
+        // if user is streaming...
         if (json['stream'])
         {
+          // ...applies appropriate styling and status updates
           liveStreamingStatus(json, elem); 
         }
         else
         {
+          // ...apply offline styling and status updates
           offlineStatus(elem); 
         }
-        /*if (json['error'])
-        {
-          console.log("Error correctly handled teeem");
-        }*/
       }).fail(function(jqxhr, textStatus, error) {
-        // testing code
-        var err = textStatus + ", " + error;
-        console.log((toggleHash(elem)) + "Request failed: " + err);
-        //console.log(elem);
     
-        /*var hashPhotoUser = '#' + (toggleHash(elem)); 
-        $("<h3>Account Closed</h3>").appendTo('#' + elem);
-        $(hashPhotoUser).css("background", "red");*/
+         // ...not even a user anymore
          accountClosedStatus(elem);
   });
   });
 
   
 }
-
-/* builds a div with username so username can display
- over other content
-function buildUsernameDiv(username)
-{
-  var currentDiv = $("#gridResults");
-  var usernameDiv = document.createElement("div");
-  var userHeader = document.createElement("h2");
-  var snippetNode = document.createTextNode(username);
-  userHeader.appendChild(snippetNode);
-  usernameDiv.appendChild(userHeader);
-  usernameDiv.className = "user-header"; 
-  currentDiv.append(usernameDiv);
-}*/
 
 // twitch usernames are utilized as ids for html elements in two
 // different ways in this. firstly as username + username[0], which
@@ -283,27 +270,25 @@ function toggleHash(username)
   }
 }
 
+// adds styling and status update for user with closed account
 function accountClosedStatus(username)
 {
   var hashPhotoUser = toggleHash(username); 
-  console.log("inside alterpage, username: " + hashPhotoUser);
   var div = document.getElementById(hashPhotoUser);
   div.setAttribute("style", "background: #ff6666");
-  //var hashPhotoUser = '#' + (toggleHash(username)); 
   $("<h3><i class='fa fa-minus-circle' aria-hidden='true'></i><span id='closed' class='current'>Account Closed</span></h3>").appendTo((toggleHash(hashPhotoUser)));
-  //$(hashPhotoUser).css("background", "red !important");
 }
 
+// adds styling and status update for user currently streaming
 function liveStreamingStatus(json, username)
 {
   var hashPhotoUser = toggleHash(username);
-  //console.log("in liveStreamingStatus " + hashPhotoUser);
   var div = document.getElementById(hashPhotoUser);
   div.setAttribute("style", "background: #46bf40");
   $("<h3><i class='fa fa-television' aria-hidden='true'></i> <span id='streaming' class='current'>Currently Streaming</span> " + json['stream']['game'] + "</h3>").appendTo((toggleHash(hashPhotoUser)));
-  //console.log(json["stream"]["game"] + " " + username);
 }
 
+// adds styling and status update for user currently offline
 function offlineStatus(username)
 {
   var hashPhotoUser = toggleHash(username);
