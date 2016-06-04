@@ -158,3 +158,41 @@ a:hover
   text-shadow: 4px 4px 25px purple;
   color: #6344a2;
 }
+
+#projects
+{
+  display: none;
+}
+
+.fa-external-link
+{
+  margin-left: 3px;
+}
+
+#projects > a
+{
+  font-size: 14px;
+}
+
+#timpic
+{
+  display: none;
+  border-radius: 30px;
+}
+
+#about
+{
+  display: none; 
+  font-size: 14px;
+}
+
+.foot-pro
+{
+  margin-top: 4em;
+  text-shadow: none;
+}
+
+.foot-pro a
+{
+  text-shadow: none;
+}

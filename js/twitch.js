@@ -9,7 +9,7 @@ $(document).ready(function() {
   lastHeightDims = '';
 
   // this is the isotope grid css plugin setup
-  $('.grid').isotope({
+    $('.grid').isotope({
     itemSelector: '.grid-item',
     percentPosition: true,
     masonry: {
@@ -36,7 +36,9 @@ $(document).ready(function() {
 
   var usernameList = ['MedryBw', 'freecodecamp', 'storbeck', 'terakilobyte', 
                       'habathcx', 'RobotCaleb', 'thomasballinger',
-                      'noobs2ninjas', 'beohoff', 'comster404', 'brunofin'];
+                      'noobs2ninjas', 'beohoff', 'comster404', 'brunofin',
+                      'ESL_SC2', 'OgamingSC2', 'cretetion', 'cheapassgamer', 
+                      'christianspicer'];
 
   gridClasses = [' ', ' ', 'grid-item--width2',];
 
@@ -124,6 +126,19 @@ $(document).ready(function() {
     // stores current user to restore original values
     // after a subsequent click
     lastUser = headerDivUser;
+  });
+
+  // mini portfolio navigation
+  $('#ab').click(function(){
+    $('#about').toggle(600);
+  });
+ 
+  $('#pr').click(function(){
+    $('#projects').toggle(600);
+  });
+
+  $('#ti').click(function(){
+    $('#timpic').toggle(600);
   });
 });
 
