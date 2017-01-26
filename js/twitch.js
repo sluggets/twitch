@@ -23,7 +23,7 @@ $(document).ready(function() {
                       'habathcx', 'RobotCaleb', 'thomasballinger',
                       'noobs2ninjas', 'beohoff', 'comster404', 'brunofin',
                       'ESL_SC2', 'OgamingSC2', 'cretetion', 'cheapassgamer', 
-                      'christianspicer'];
+                      'christianspicer', 'silentwolf444', 'frostygaming', 'boogieman_mow'];
 
   // list of classes to apply to user icons, started with three
   // different sizes, went for two different sizes, with higher
@@ -151,7 +151,7 @@ function buildStreamers(elem, index, arr)
   // object containin parameters for API call. i made this 
   // anticipating more parameters!
   var apiParams = {
-    "Client-ID"        :"hbv2o1kd0mxw10p06g6t9fr3n4eue04"
+    "client_id"        :"hbv2o1kd0mxw10p06g6t9fr3n4eue04"
   };
 
 
@@ -245,7 +245,6 @@ function buildStreamers(elem, index, arr)
   });
   });
 
-  
 }
 
 // twitch usernames are utilized as ids for html elements in two
